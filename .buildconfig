@@ -1,0 +1,10 @@
+[default]
+name=Default
+runtime=host
+config-opts=
+run-opts=
+prefix=/home/solaris/.cache/gnome-builder/install/robot_simulator/host
+app-id=
+postbuild=
+prebuild=
+default=true
