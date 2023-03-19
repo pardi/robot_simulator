@@ -9,7 +9,7 @@ RUN wget https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz
 RUN tar -xvzf VTK-8.2.0.tar.gz
 RUN mkdir VTK-8.2.0/build && cd VTK-8.2.0/build && cmake .. && make -j8 && make install
 
-RUN apt-get install nlohmann-json3-dev -y
+RUN apt-get install nlohmann-json3-dev liburdfdom-dev liburdfdom-headers-dev -y
 
 COPY . .
 RUN mkdir build && cd build && cmake .. && make -j4
