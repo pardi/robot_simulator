@@ -102,7 +102,7 @@ target_include_directories(${PROJECT_NAME}_srv PUBLIC ${CMAKE_CURRENT_SOURCE_DIR
 target_link_libraries(${PROJECT_NAME}_srv PRIVATE ${VTK_LIBRARIES} ${Boost_LIBRARIES} urdfdom_model Eigen3::Eigen3 nlohmann_json::nlohmann_json ${PCL_LIBRARIES} ${LIB_NAME}  Boost::thread)
 
 # Tests
-add_subdirectory(dep/gtest)
+add_subdirectory(deps/gtest)
 enable_testing()
 
 add_executable(
