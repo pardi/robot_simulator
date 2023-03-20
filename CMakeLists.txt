@@ -92,7 +92,26 @@ target_include_directories(${PROJECT_NAME}_srv PUBLIC ${CMAKE_CURRENT_SOURCE_DIR
 # Target link libraries
 target_link_libraries(${PROJECT_NAME}_srv PRIVATE ${VTK_LIBRARIES} ${Boost_LIBRARIES} urdfdom_model Eigen3::Eigen3 nlohmann_json::nlohmann_json ${PCL_LIBRARIES} ${LIB_NAME}  Boost::thread)
 
-# ------------------------------------------------------- TEST CODE
+# Tests
+add_subdirectory(dep/gtest)
+enable_testing()
+
+add_executable(
+  tests
+  tests/test_client.cpp
+  )
+
+target_link_libraries(
+  tests
+  GTest::gtest_main
+  Eigen3::Eigen3 
+  ${LIB_NAME}
+)
+
+include(GoogleTest)
+gtest_discover_tests(tests)
+
+# ------------------------------------------------------- EXAMPLES CODE
 if (COMPILE_EXAMPLE)
   # add the executable
   add_executable(${PROJECT_NAME}_cln MACOSX_BUNDLE src/client.cpp)
@@ -103,7 +122,7 @@ if (COMPILE_EXAMPLE)
   # Target link libraries
   target_link_libraries(${PROJECT_NAME}_cln PRIVATE ${VTK_LIBRARIES} ${Boost_LIBRARIES} urdfdom_model Eigen3::Eigen3 nlohmann_json::nlohmann_json ${PCL_LIBRARIES} ${LIB_NAME}  Boost::thread)
 endif()
-# ------------------------------------------------------- end TEST CODE
+# ------------------------------------------------------- end EXAMPLES CODE
 
 
 # ------------------------------------------------------- INSTALL
