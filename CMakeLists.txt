@@ -67,8 +67,17 @@ target_include_directories(${LIB_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includ
 target_link_libraries(${LIB_NAME} PRIVATE ${VTK_LIBRARIES} ${Boost_LIBRARIES} urdfdom_model Eigen3::Eigen3 nlohmann_json::nlohmann_json ${PCL_LIBRARIES}  Boost::thread)
 
 # compile extras options
-add_compile_options(-Wall -Wextra -O3)
 option(COMPILE_EXAMPLE "Compile the test function" ON)
+option(DEBUG "Compile in debug mode" ON)
+option(RELEASE "Compile in release mode" OFF)
+
+if (DEBUG){
+  add_compile_options(-Wall -Wextra -O0)
+}
+else {
+  add_compile_options(-O3)
+}
+
 
 # Headers
 set(HEADERS_SIM
