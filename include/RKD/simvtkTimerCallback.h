@@ -16,7 +16,7 @@ class simvtkTimerCallback : public vtkCommand
 public:
 	simvtkTimerCallback() = default;
 
-	static simvtkTimerCallback* New();
+	static std::shared_ptr<simvtkTimerCallback> New();
 
 	virtual void Execute(vtkObject*, unsigned long, void*);
 
@@ -24,7 +24,7 @@ public:
 
 	int timerId_{-1};
 
-	robotSimulator* robSimObj_;
+	std::shared_ptr<robotSimulator> robSimObj_;
 	int TimerCount_;
 	int type_ = 0;
 	bool stop_flag_{false};

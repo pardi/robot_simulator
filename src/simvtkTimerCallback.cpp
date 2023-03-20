@@ -2,9 +2,9 @@
 
 using namespace RKD;
 
-simvtkTimerCallback* simvtkTimerCallback::New(){
+std::shared_ptr<simvtkTimerCallback> simvtkTimerCallback::New(){
 	
-	simvtkTimerCallback* cb = new simvtkTimerCallback();
+	std::shared_ptr<simvtkTimerCallback> cb = new simvtkTimerCallback();
 	
 	cb->TimerCount_ = 0;
 

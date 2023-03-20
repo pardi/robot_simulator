@@ -98,7 +98,7 @@ public:
 		rootLinkPtr_->print();
 	}
 
-	void makeCopy(const simRobot& r, vtkSmartPointer<vtkRenderer>& renderer, const double& opacity = 1.0){
+	void makeCopy(const simRobot& r, vtkSmartPointer<vtkRenderer>& renderer, double opacity = 1.0){
 
 		this->joint_number_ = r.joint_number_;
 
