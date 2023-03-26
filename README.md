@@ -5,4 +5,4 @@ The architecture of the code is structured as server/client. The server runs onc
 
 ## Sample image
 
-![](tps://github.com/pardi/robot_simulator/tree/master/images/panda_movement.gif)
+![](https://github.com/pardi/robot_simulator/blob/master/images/panda_movement.gif)
