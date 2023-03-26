@@ -114,7 +114,7 @@ public:
 	int joint_number_;
 };
 
-class robotSimulator: public simServerSocket{
+class robotSimulator: public std::enable_shared_from_this<robotSimulator>, public simServerSocket{
 
 public:
 
@@ -189,11 +189,11 @@ protected:
 	void clearGhostRobot();
 
 
-	inline double rad2deg(const double& angle){
+	inline double rad2deg(const double angle){
 		return angle * 180.0 / M_PI;
 	}	
 	
-	inline double deg2rad(const double& angle){
+	inline double deg2rad(const double angle){
 		return angle / 180.0 * M_PI;
 	}	
 

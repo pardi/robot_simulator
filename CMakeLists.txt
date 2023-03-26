@@ -71,12 +71,9 @@ option(COMPILE_EXAMPLE "Compile the test function" ON)
 option(DEBUG "Compile in debug mode" ON)
 option(RELEASE "Compile in release mode" OFF)
 
-if (DEBUG){
+if (DEBUG)
   add_compile_options(-Wall -Wextra -O0)
-}
-else {
-  add_compile_options(-O3)
-}
+endif()
 
 
 # Headers
@@ -113,8 +110,7 @@ add_executable(
 target_link_libraries(
   tests
   GTest::gtest_main
-  Eigen3::Eigen3 
-  ${LIB_NAME}
+  ${VTK_LIBRARIES} ${Boost_LIBRARIES} urdfdom_model Eigen3::Eigen3 nlohmann_json::nlohmann_json ${PCL_LIBRARIES} ${LIB_NAME}  Boost::thread 
 )
 
 include(GoogleTest)

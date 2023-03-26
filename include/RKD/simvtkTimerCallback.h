@@ -16,7 +16,7 @@ class simvtkTimerCallback : public vtkCommand
 public:
 	simvtkTimerCallback() = default;
 
-	static std::shared_ptr<simvtkTimerCallback> New();
+	static vtkSmartPointer<simvtkTimerCallback> New();
 
 	virtual void Execute(vtkObject*, unsigned long, void*);
 

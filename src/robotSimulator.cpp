@@ -59,7 +59,7 @@ robotSimulator::robotSimulator():simServerSocket(){
 	*/
 
 	auto callBack = vtkSmartPointer<simvtkTimerCallback>::New();
-	callBack->robSimObj_ = this;
+	callBack->robSimObj_ = shared_from_this();
 	renderWindowInteractor_->AddObserver(vtkCommand::TimerEvent, callBack);
 	callBack->timerId_ = renderWindowInteractor_->CreateRepeatingTimer(100);
 
