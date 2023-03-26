@@ -37,7 +37,7 @@ protected:
 
 	//Methods
 	void waitingForConnection();
-	tcp::socket* socketPtr_;
+	std::unique_ptr<tcp::socket> socketPtr_{nullptr};
 
 };
 }

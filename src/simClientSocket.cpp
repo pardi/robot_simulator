@@ -51,7 +51,7 @@ simClientSocket::simClientSocket(){
 	*/
 
 	//socket creation
-	socketPtr_ = new tcp::socket(service_);
+	socketPtr_ = std::make_unique<tcp::socket>(service_);
 	//connection
 	socketPtr_->connect( boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(LOCALHOST), PORT));
 }
