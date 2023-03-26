@@ -25,10 +25,9 @@ public:
 	}
 
 	void makeCopy(const simJoint&);
-	static void makeCopyJoint(const std::shared_ptr<simJoint>&, std::shared_ptr<simJoint>&, const std::shared_ptr<simLink>&, vtkSmartPointer<vtkRenderer>&, const double&);
+	static void makeCopyJoint(const std::shared_ptr<simJoint>&, std::shared_ptr<simJoint>&, const std::shared_ptr<simLink>&, vtkSmartPointer<vtkRenderer>&, const double);
 
-
-	void print(const int& i = 0);
+	void print(const int i = 0);
 	
 	enum {FIXED, PRISMATIC, REVOLUTE} type_;
 

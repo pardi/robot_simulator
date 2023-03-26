@@ -2,7 +2,7 @@
 
 using namespace RKD;
 
-void simJoint::print(const int& i){
+void simJoint::print(const int i){
 
 	for (int n_tab = 0; n_tab < i; ++n_tab)
 		std::cout << " ";
