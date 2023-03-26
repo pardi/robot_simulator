@@ -5,7 +5,7 @@ using namespace RKD;
 
 simServerSocket::simServerSocket(){
 
-	acceptor_ = new boost::asio::ip::tcp::acceptor(service_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT));
+	acceptorPtr_ = std::make_unique<boost::asio::ip::tcp::acceptor>(service_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT));
 
 	// Start the thread
     std::thread{std::bind(&simServerSocket::waitingForConnection, this)}.detach();
@@ -34,7 +34,7 @@ void simServerSocket::HandleRequest(boost::asio::ip::tcp::socket&& clientSock){
 void simServerSocket::waitingForConnection(){
 
 	boost::asio::ip::tcp::socket clientSock (service_);
-	acceptor_->accept(clientSock); //new socket accepted
+	acceptorPtr_->accept(clientSock); //new socket accepted
 
    	while(true){
 		// Check if the Socket is available

@@ -28,14 +28,12 @@ namespace RKD{
 class simServerSocket{
 public:
 	simServerSocket();
-	~simServerSocket(){
-		delete acceptor_;
-	}
+	~simServerSocket(){};
 
 protected:
     //Storage
     boost::asio::io_service service_;
-    boost::asio::ip::tcp::acceptor* acceptor_; 
+    std::unique_ptr<boost::asio::ip::tcp::acceptor> acceptorPtr_{nullptr}; 
     bool verbose_{VERBOSE};
     std::list<std::string> msg_in_;
     boost::mutex mux_;
