@@ -61,7 +61,7 @@ public:
 	vtkSmartPointer<vtkActor> linkActor_;
 	vtkSmartPointer<vtkAxesActor> linkFrameActor_;
 
-	double opacity_;
+	double opacity_{0};
 
 };
 

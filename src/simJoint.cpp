@@ -44,7 +44,7 @@ void simJoint::makeCopy(const simJoint& in){
 }
 
 
-void simJoint::makeCopyJoint(const std::shared_ptr<simJoint>& j, std::shared_ptr<simJoint>& jcopy, const std::shared_ptr<simLink>& lcopyParent, vtkSmartPointer<vtkRenderer>& renderer, const double& opacity){
+void simJoint::makeCopyJoint(const std::shared_ptr<simJoint>& j, std::shared_ptr<simJoint>& jcopy, const std::shared_ptr<simLink>& lcopyParent, vtkSmartPointer<vtkRenderer>& renderer, const double opacity){
 
 	if(!j)
 		return;
