@@ -4,7 +4,7 @@ WORKDIR /apps
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install \
-    ibpcl-dev -y\
+    libpcl-dev -y\
     nlohmann-json3-dev \
     liburdfdom-dev \
     liburdfdom-headers-dev -y
