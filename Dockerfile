@@ -3,7 +3,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /apps
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get installl \
+RUN apt-get install \
     ibpcl-dev -y\
     nlohmann-json3-dev \
     liburdfdom-dev \
