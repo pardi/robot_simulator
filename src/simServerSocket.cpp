@@ -5,7 +5,7 @@ using namespace RKD;
 
 simServerSocket::simServerSocket(){
 
-	acceptorPtr_ = std::make_unique<boost::asio::ip::tcp::acceptor>(service_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), PORT));
+	acceptorPtr_ = std::make_unique<boost::asio::ip::tcp::acceptor>(service_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port_));
 
 	// Start the thread
     std::thread{std::bind(&simServerSocket::waitingForConnection, this)}.detach();
@@ -13,22 +13,19 @@ simServerSocket::simServerSocket(){
 
 void simServerSocket::HandleRequest(boost::asio::ip::tcp::socket&& clientSock){
 
-
 	std::string	msg_in = readFromSocket(clientSock);
 
 	if (msg_in.empty()){
-		sendToSocket(clientSock, NOACK_MSG);
+		sendToSocket(clientSock, MsgType::NOACK);
 	}
 	else{
-		sendToSocket(clientSock, ACK_MSG);
-	
-		mux_.lock();	
-		// Store new message
-		msg_in_.push_back(msg_in);
-		mux_.unlock();
+		sendToSocket(clientSock, MsgType::ACK);
+        {
+            std::lock_guard <std::mutex> lock(mux_);
+            // Store new message
+            msg_in_.push_back(msg_in);
+        }
 	}
-
-	
 }
 
 void simServerSocket::waitingForConnection(){
@@ -41,40 +38,40 @@ void simServerSocket::waitingForConnection(){
 		if (clientSock.available()){
 			HandleRequest(std::move(clientSock));
 
-		std::this_thread::sleep_for (std::chrono::microseconds(100));
+		    std::this_thread::sleep_for (std::chrono::microseconds(100));
 		}
 	}	
 }
 
-std::string simServerSocket::readFromSocket(tcp::socket & socket) {
+std::string simServerSocket::readFromSocket(tcp::socket& socket) {
 
 	boost::asio::streambuf buf;
 
 	boost::system::error_code error;
 
-	boost::asio::read_until( socket, buf, END_MSG, error);
+	boost::asio::read_until( socket, buf, MsgType::END, error);
 
 	std::string msg = boost::asio::buffer_cast<const char*>(buf.data());
 
 	//  Erase the last character 
   	msg.erase(msg.end() - 7, msg.end());
 
-	if( error && error != boost::asio::error::eof )
-		msg.clear();
+	if( error && error != boost::asio::error::eof ) {
+        msg.clear();
+    }
 
 
 	return msg;
 }
 
 void simServerSocket::sendToSocket(tcp::socket & socket, const std::string& message) {
-	const std::string msg = message + "\n";
-	boost::asio::write( socket, boost::asio::buffer(message) );
+//	const std::string msg = message + "\n";
+	boost::asio::write(socket, boost::asio::buffer(message + "\n"));
 }
 
-
-void simServerSocket::sendACK(tcp::socket & socket, const std::string& msg){
+void simServerSocket::sendACK(tcp::socket& socket, const std::string& msg){
 	if (msg == "")
-		sendToSocket(socket, NOACK_MSG);
+		sendToSocket(socket, MsgType::NOACK);
 	else
-		sendToSocket(socket, ACK_MSG);
+		sendToSocket(socket, MsgType::ACK);
 }
