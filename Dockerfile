@@ -10,5 +10,5 @@ RUN apt-get install \
     liburdfdom-headers-dev \
     git -y
 
-RUN git clone --recursive-submodules https://github.com/pardi/robot_simulator.git
+RUN git clone --recurse-submodules https://github.com/pardi/robot_simulator.git
 RUN mkdir build && cd build && cmake .. && make -j4
