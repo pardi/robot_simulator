@@ -7,7 +7,8 @@ RUN apt-get install \
     libpcl-dev -y\
     nlohmann-json3-dev \
     liburdfdom-dev \
-    liburdfdom-headers-dev -y
+    liburdfdom-headers-dev \
+    git -y
 
 RUN git clone --recursive-submodules https://github.com/pardi/robot_simulator.git
 RUN mkdir build && cd build && cmake .. && make -j4
