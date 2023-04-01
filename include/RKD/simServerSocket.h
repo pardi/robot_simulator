@@ -34,7 +34,7 @@ protected:
     bool verbose_{false};
     std::list<std::string> msg_in_;
     boost::mutex mux_;
-    constexpr int16_t port_{8305};
+    constexpr int port_{8305};
 
     //Methods
     /* /brief Function for waiting for a connection
@@ -77,7 +77,7 @@ protected:
      * \return void
      *
      * */
-    void sendToSocket(tcp::socket& socket, const std::string& msg
+    void sendToSocket(tcp::socket& socket, const std::string& msg);
 
     /* /brief Send an Acknowledgement
      *
