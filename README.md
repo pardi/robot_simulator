@@ -54,8 +54,23 @@ Then:
 
 
 ## Getting started
+```
+#include <RKD/simInterface.h>
+using namespace RKD;
 
-TBD
+int main (int, char*[])
+
+{
+    // Generate simulation interface
+    simInterface simInt;
+
+    // Load Robot
+    while(!simInt.generateURDFRobot("../urdf/panda_arm_hand.urdf")){
+        std::cout << "ERROR in loading the robot" << std::endl;
+    }
+}
+
+```
 ## Sample image
 
 ![](https://github.com/pardi/robot_simulator/blob/master/images/panda_movement.gif)
