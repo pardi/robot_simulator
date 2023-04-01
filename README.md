@@ -30,27 +30,27 @@ RUN apt-get install \
 ## Installation
 Install packages:
 
-``
+```
     sudo apt install libpcl-dev nlohmann-json3-dev liburdfdom-dev liburdfdom-headers-dev
-``
+```
 Install source:
-``
+```
     mkdir -p robot_simulator/build
     cd robot_simulator/build
     cmake ..
-``
+```
 
 If you want to build the examples, use instead:
     
-``
+```
     cmake .. -DCOMPILE_EXAMPLE=ON
 ```
 
 Then:
-``
+```
     make -j 4
     sudo make install
-``
+```
 
 
 ## Getting started
