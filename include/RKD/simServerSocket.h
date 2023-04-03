@@ -24,6 +24,8 @@ enum class MsgType{
     NOACK,
     END};
 
+static std::unordered_map<const MsgType, const std::string> c_msgTypeMap = {{MsgType::ACK, "ACK-EndMSG"}, {MsgType::NOACK, "NOACK-EndMSG"}, {MsgType::END, "-EndMSG"}};
+
 class simServerSocket{
 public:
 	simServerSocket();
@@ -38,7 +40,6 @@ protected:
     std::list<std::string> msg_in_;
     std::mutex mux_;
     const int port_{8305};
-    std::unordered_map<const MsgType, const std::string> msgTypeMap_ = {{MsgType::ACK, "ACK-EndMSG"}, {MsgType::NOACK, "NOACK-EndMSG"}, {MsgType::END, "-EndMSG"}};
 
     //Methods
     /* /brief Function for waiting for a connection

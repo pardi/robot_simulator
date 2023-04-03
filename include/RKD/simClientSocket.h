@@ -4,16 +4,11 @@
 #ifndef _simClientSocket_header_
 #define _simClientSocket_header_
 
-
-#define PORT 8305
-#define LOCALHOST "127.0.0.1"
-#define END_MSG "-EndMSG"
-#define VERBOSE false
-
 // Socket Lib
 #include <iostream>
 #include <boost/asio.hpp>
 #include <nlohmann/json.hpp>
+#include <RKD/simServerSocket.h>
 
 // for convenience
 using json = nlohmann::json;
@@ -25,8 +20,8 @@ namespace RKD{
 
 class simClientSocket{
 public:
-	simClientSocket();
-	~simClientSocket(){}
+	simClientSocket(const std::string& address = "127.0.0.1", int port = 8305);
+	~simClientSocket() = default;
 
 	bool sendMSG(const std::string&);
 
@@ -34,6 +29,8 @@ protected:
 	//Storage
 	boost::asio::io_service service_;
 	bool verbose_{VERBOSE};
+    int port_{8305};
+    std::string address_{"127.0.0.1"};
 
 	//Methods
 	void waitingForConnection();
