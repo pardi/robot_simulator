@@ -11,11 +11,12 @@ bool simClientSocket::sendMSG(const std::string& msg) {
 
 	boost::system::error_code error;
 
-	boost::asio::write( *socketPtr_, boost::asio::buffer(msg + END_MSG), error );
+	boost::asio::write( *socketPtr_, boost::asio::buffer(msg + c_msgTypeMap[MsgType::END]), error );
 	
 	if( error ) {
-		if (verbose_)
-			std::cout << "Send failed: " << error.message() << std::endl;
+		if (verbose_) {
+            std::cout << "Send failed: " << error.message() << std::endl;
+        }
 		return false;
 	}
 	
@@ -25,11 +26,12 @@ bool simClientSocket::sendMSG(const std::string& msg) {
 
 	boost::asio::streambuf ack_buf;
 
-	boost::asio::read_until( *socketPtr_, ack_buf, END_MSG, error);
+	boost::asio::read_until( *socketPtr_, ack_buf, c_msgTypeMap[MsgType::END], error);
 
 	if( error && error != boost::asio::error::eof ) {
-		if (verbose_)
+		if (verbose_){
 			std::cout << "receive failed: " << error.message() << std::endl;
+        }
 	}
 	else {
 		std::string ack_msg = boost::asio::buffer_cast<const char*>(ack_buf.data());
@@ -37,15 +39,16 @@ bool simClientSocket::sendMSG(const std::string& msg) {
 		//  Erase the last character 
 		ack_msg.erase(ack_msg.end() - 7, ack_msg.end());
 
-		if(ack_msg.compare("ACK") != 0)
-			return false;
+		if(ack_msg.compare("ACK") != 0) {
+            return false;
+        }
 	}
 
 	return true;
 }
 
 
-simClientSocket::simClientSocket(){
+simClientSocket::simClientSocket(const std::string& address, int port) : address_(address), port_(port) {
 	/*
 	*	DEFINE THE SOCKET
 	*/
@@ -53,5 +56,5 @@ simClientSocket::simClientSocket(){
 	//socket creation
 	socketPtr_ = std::make_unique<tcp::socket>(service_);
 	//connection
-	socketPtr_->connect( boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(LOCALHOST), PORT));
+	socketPtr_->connect( boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(address_), port_));
 }

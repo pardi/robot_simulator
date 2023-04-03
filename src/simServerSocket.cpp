@@ -16,10 +16,10 @@ void simServerSocket::HandleRequest(boost::asio::ip::tcp::socket&& clientSock){
 	std::string	msg_in = readFromSocket(clientSock);
 
 	if (msg_in.empty()){
-		sendToSocket(clientSock, msgTypeMap_[MsgType::NOACK]);
+		sendToSocket(clientSock, c_msgTypeMap[MsgType::NOACK]);
 	}
 	else{
-		sendToSocket(clientSock, msgTypeMap_[MsgType::ACK]);
+		sendToSocket(clientSock, c_msgTypeMap[MsgType::ACK]);
         {
             const std::lock_guard <std::mutex> lock(mux_);
             // Store new message
@@ -49,7 +49,7 @@ std::string simServerSocket::readFromSocket(tcp::socket& socket) {
 
 	boost::system::error_code error;
 
-	boost::asio::read_until(socket, buf, msgTypeMap_[MsgType::END], error);
+	boost::asio::read_until(socket, buf, c_msgTypeMap[MsgType::END], error);
 
 	std::string msg = boost::asio::buffer_cast<const char*>(buf.data());
 
@@ -69,9 +69,9 @@ void simServerSocket::sendToSocket(tcp::socket & socket, const std::string& mess
 
 void simServerSocket::sendACK(tcp::socket& socket, const std::string& msg){
 	if (msg == "") {
-        sendToSocket(socket, msgTypeMap_[MsgType::NOACK]);
+        sendToSocket(socket, c_msgTypeMap[MsgType::NOACK]);
     }
 	else {
-        sendToSocket(socket, msgTypeMap_[MsgType::ACK]);
+        sendToSocket(socket, c_msgTypeMap[MsgType::ACK]);
     }
 }
