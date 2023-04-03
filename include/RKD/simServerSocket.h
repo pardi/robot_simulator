@@ -11,6 +11,8 @@
 #include <thread>
 #include <memory>
 #include <list>
+#include <unordered_map>
+#include <mutex>
 
 using namespace boost::asio;
 using ip::tcp;
@@ -18,23 +20,25 @@ using ip::tcp;
 namespace RKD{
 
 enum class MsgType{
-    ACK = "ACK-EndMSG",
-    NOACK = "NOACK-EndMSG",
-    END = "-EndMSG"};
+    ACK,
+    NOACK,
+    END};
 
 class simServerSocket{
 public:
 	simServerSocket();
-	~simServerSocket(){};
+	~simServerSocket() = default;
 
 protected:
-// Attributes
+
+    // Attributes
     boost::asio::io_service service_;
     std::unique_ptr<boost::asio::ip::tcp::acceptor> acceptorPtr_{nullptr}; 
     bool verbose_{false};
     std::list<std::string> msg_in_;
-    boost::mutex mux_;
-    constexpr int port_{8305};
+    std::mutex mux_;
+    const int port_{8305};
+    std::unordered_map<const MsgType, const std::string> msgTypeMap_ = {{MsgType::ACK, "ACK-EndMSG"}, {MsgType::NOACK, "NOACK-EndMSG"}, {MsgType::END, "-EndMSG"}};
 
     //Methods
     /* /brief Function for waiting for a connection
