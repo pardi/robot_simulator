@@ -2,21 +2,23 @@
 
 using namespace RKD;
 
+
 bool simInterface::updateRobot(const Eigen::VectorXd& q){
 
 	json cmd;
 
 	// add a number that is stored as double (note the implicit conversion of j to an object)
-	cmd["fcn"] = "updateRobot";
+	cmd["fcn"] = cmdMap_[cmdType::UPDATE_ROBOT];
 
 	int i = 0;
 
 	cmd["number_joint"] = q.size();
 
 	std::string name_q = "q";
-	
-	for (int i = 0; i < q.size(); ++i)
-		cmd[name_q + std::to_string(i)] = q(i);
+
+	for (int i = 0; i < q.size(); ++i) {
+        cmd[name_q + std::to_string(i)] = q(i);
+    }
 
 	// Send message via Socket
 	bool ret = sendMSG(cmd.dump());
@@ -29,7 +31,7 @@ bool simInterface::generateURDFRobot(const std::string& urdf_path){
 	json cmd;
 
 	// add a number that is stored as double (note the implicit conversion of j to an object)
-	cmd["fcn"] = "generateURDFRobot";
+	cmd["fcn"] = cmdMap_[cmdType::GENERATE_URDF_ROBOT];
 
 	int i = 0;
 
@@ -46,7 +48,7 @@ bool simInterface::loadPCD(const std::string& PCD_path, const Eigen::Matrix4f tr
 
 	json cmd;
 
-	cmd["fcn"] = "loadPCD";
+	cmd["fcn"] = cmdMap_[cmdType::LOAD_PCD];
 
 	int i = 0;
 
@@ -79,11 +81,11 @@ bool simInterface::loadPCD(const std::string& PCD_path, const Eigen::Matrix4f tr
 
 }
 
-bool simInterface::drawLine(const std::vector<Eigen::VectorXd>& points, double* colour){
+bool simInterface::drawLine(const std::vector<Eigen::VectorXd>& points, const std::array<double, 3> colour){
 
 	json cmd;
 
-	cmd["fcn"] = "drawLine";
+	cmd["fcn"] = cmdMap_[cmdType::DRAW_LINE];
 
 	cmd["n_ponts"] = points.size();
 
@@ -106,11 +108,11 @@ bool simInterface::drawLine(const std::vector<Eigen::VectorXd>& points, double* 
 	return ret;	
 }
 
-bool simInterface::drawEllipsoid(const Eigen::Vector3d& position, const Eigen::Vector3d& orientation, const Eigen::Vector3d& size, const double& opacity, double* colour){
+bool simInterface::drawEllipsoid(const Eigen::Vector3d& position, const Eigen::Vector3d& orientation, const Eigen::Vector3d& size, const double opacity, const std::array<double, 3> colour){
 
 	json cmd;
 
-	cmd["fcn"] = "drawEllipsoid";
+	cmd["fcn"] = cmdMap_[cmdType::DRAW_ELLIPSOID];
 
 	cmd["p_x"] = position(0);
 	cmd["p_y"] = position(1);
@@ -136,12 +138,12 @@ bool simInterface::drawEllipsoid(const Eigen::Vector3d& position, const Eigen::V
 	return ret;	
 }
 
-bool simInterface::ghostRobot(const Eigen::VectorXd& q, const double& opacity){
+bool simInterface::ghostRobot(const Eigen::VectorXd& q, const double opacity){
 	
 	json cmd;
 
 	// add a number that is stored as double (note the implicit conversion of j to an object)
-	cmd["fcn"] = "ghostRobot";
+	cmd["fcn"] = cmdMap_[cmdType::GHOST_ROBOT];
 
 	int i = 0;
 
@@ -149,8 +151,9 @@ bool simInterface::ghostRobot(const Eigen::VectorXd& q, const double& opacity){
 
 	std::string name_q = "q";
 	
-	for (int i = 0; i < q.size(); ++i)
-		cmd[name_q + std::to_string(i)] = q(i);
+	for (int i = 0; i < q.size(); ++i) {
+        cmd[name_q + std::to_string(i)] = q(i);
+    }
 
 	cmd["opacity"] = opacity;
 
@@ -161,11 +164,11 @@ bool simInterface::ghostRobot(const Eigen::VectorXd& q, const double& opacity){
 
 }
 
-bool simInterface::robotTrajectory(const std::vector<Eigen::VectorXd>& qvec, const double& opacity){
+bool simInterface::robotTrajectory(const std::vector<Eigen::VectorXd>& qvec, const double opacity){
 
 	json cmd;
 
-	cmd["fcn"] = "robotTrajectory";
+	cmd["fcn"] = cmdMap_[cmdType::ROBOT_TRAJECTORY];
 
 	if (qvec.size() == 0)
 		return false;
@@ -178,8 +181,10 @@ bool simInterface::robotTrajectory(const std::vector<Eigen::VectorXd>& qvec, con
 	int k = 0;
 
 	for (auto &q: qvec){
-		for (int i = 0; i < q.size(); ++i)
-			cmd["q" + std::to_string(i) + "_" + std::to_string(k)] = q(i);
+		for (int i = 0; i < q.size(); ++i) {
+            cmd["q" + std::to_string(i) + "_" + std::to_string(k)] = q(i);
+        }
+
 		k++;
 	}
 
@@ -192,11 +197,11 @@ bool simInterface::robotTrajectory(const std::vector<Eigen::VectorXd>& qvec, con
 
 }
 
-bool simInterface::drawVector(const Eigen::Vector3d& p, const Eigen::Vector3d& v, const double& scale){
+bool simInterface::drawVector(const Eigen::Vector3d& p, const Eigen::Vector3d& v, const double scale){
 
 	json cmd;
 
-	cmd["fcn"] = "drawVector";
+	cmd["fcn"] = cmdMap_[cmdType::DRAW_VECTOR];
 
 	// Set position
 	cmd["px"] = p(0);
@@ -221,7 +226,7 @@ bool simInterface::drawFrame(const Eigen::Vector3d& p, const Eigen::Vector3d& r)
 
 	json cmd;
 
-	cmd["fcn"] = "drawFrame";
+	cmd["fcn"] = cmdMap_[cmdType::DRAW_FRAME];
 
 	// Set position
 	cmd["px"] = p(0);
@@ -240,11 +245,11 @@ bool simInterface::drawFrame(const Eigen::Vector3d& p, const Eigen::Vector3d& r)
 }
 
 
-bool simInterface::drawPoint(const Eigen::VectorXd& p, const double& size, const double* colour){
+bool simInterface::drawPoint(const Eigen::VectorXd& p, const double size, const std::array<double, 3> colour){
 
 	json cmd;
 
-	cmd["fcn"] = "drawPoint";
+	cmd["fcn"] = cmdMap_[cmdType::DRAW_POINT];
 
 	// Set position
 	cmd["px"] = p(0);
@@ -266,11 +271,11 @@ bool simInterface::drawPoint(const Eigen::VectorXd& p, const double& size, const
 }
 
 
-bool simInterface::setBackground(const double& r, const double& g, const double& b){
+bool simInterface::setBackground(const double r, const double g, const double b){
 
 	json cmd;
 
-	cmd["fcn"] = "setBackground";
+	cmd["fcn"] = cmdMap_[cmdType::SET_BACKGROUND];
 
 	// Set position
 	cmd["r"] = r;
@@ -287,7 +292,7 @@ bool simInterface::clear(){
 
 	json cmd;
 
-	cmd["fcn"] = "clear";
+	cmd["fcn"] = cmdMap_[cmdType::CLEAR];
 
 	// Send message via Socket
 	bool ret = sendMSG(cmd.dump());
