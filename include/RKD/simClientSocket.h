@@ -28,7 +28,7 @@ public:
 protected:
 	//Storage
 	boost::asio::io_service service_;
-	bool verbose_{VERBOSE};
+	bool verbose_{true};
     int port_{8305};
     std::string address_{"127.0.0.1"};
 

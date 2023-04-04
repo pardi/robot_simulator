@@ -20,8 +20,6 @@ namespace RKD{
 class simInterface : public simClientSocket{
 private:
 
-    const std::array<double, 3> defaultColour_{1.0, 1.0, 1.0};
-
     enum class cmdType{
         UPDATE_ROBOT,
         GENERATE_URDF_ROBOT,
@@ -62,9 +60,9 @@ public:
 	// Load PCD
 	bool loadPCD(const std::string&, const Eigen::Matrix4f transf = Eigen::Matrix4f::Identity());
 	// Draw Line
-	bool drawLine(const std::vector<Eigen::VectorXd>&, const std::array<double, 3> colour = defaultColour_);
+	bool drawLine(const std::vector<Eigen::VectorXd>&, const std::array<double, 3> colour = {1.0, 1.0, 1.0});
 	// Draw Ellipsoid - parametrisation: ZYX
-	bool drawEllipsoid(const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Vector3d&, const double, const std::array<double, 3> colour = defaultColour_);
+	bool drawEllipsoid(const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Vector3d&, const double, const std::array<double, 3> colour = {1.0, 1.0, 1.0});
 	// Draw a ghost robot
 	bool ghostRobot(const Eigen::VectorXd&, const double opacity = 0.8);
 	// Robot Trajectory
@@ -74,7 +72,7 @@ public:
 	// Draw Frame
 	bool drawFrame(const Eigen::Vector3d&, const Eigen::Vector3d&);
 	// Draw PointFrame
-	bool drawPoint(const Eigen::VectorXd&, const double size = 4, const std::array<double, 3> colour = defaultColour_);
+	bool drawPoint(const Eigen::VectorXd&, const double size = 4, const std::array<double, 3> colour = {1.0, 1.0, 1.0});
 	// Colour background
 	bool setBackground(const double r, const double g, const double b);
 	// Clear scene
