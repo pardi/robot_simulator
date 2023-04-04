@@ -20,7 +20,9 @@ public:
 	simJoint(){}
 	simJoint(const simJoint&);
 	~simJoint(){
-		parent_linkPtr_.reset();
+		if (std::shared_ptr<simLink> parentLnkPtr = parent_linkPtr_.lock()) {
+			parentLnkPtr.reset();
+		}
 		child_linkPtr_.reset();
 	}
 
@@ -31,7 +33,7 @@ public:
 	
 	enum {FIXED, PRISMATIC, REVOLUTE} type_;
 
-	std::shared_ptr<simLink> parent_linkPtr_;
+	std::weak_ptr<simLink> parent_linkPtr_;
 	std::shared_ptr<simLink> child_linkPtr_;
 
 	std::string name_;
