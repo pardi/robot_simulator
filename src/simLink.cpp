@@ -2,7 +2,7 @@
 
 using namespace RKD;
 
-void simLink::print(const int& i){
+void simLink::print(const int i){
 
 	for (int n_tab = 0; n_tab < i; ++n_tab)
 		std::cout << " ";
@@ -67,7 +67,7 @@ void simLink::makeCopy(const simLink& in){
 
 }
 
-void simLink::makeCopyLink(const std::shared_ptr<simLink>& l, std::shared_ptr<simLink>& lcopy, const std::shared_ptr<simJoint>& jcopyParent, vtkSmartPointer<vtkRenderer>& renderer, const double& opacity){
+void simLink::makeCopyLink(const std::shared_ptr<simLink>& l, std::shared_ptr<simLink>& lcopy, const std::shared_ptr<simJoint>& jcopyParent, vtkSmartPointer<vtkRenderer>& renderer, const double opacity){
 
 	if(!l)
 		return;

@@ -34,24 +34,26 @@ class simJoint;
 class simLink{
 
 public:	
-	simLink(const double& opacity = 1.0){
-		opacity_ = opacity;
-	}
+	simLink(const double opacity = 1.0): opacity_(opacity){}
+
 	simLink(const simLink&);
+	
 	~simLink(){
-		parent_jointPtr_.reset();
+		if (std::shared_ptr<simJoint> parentJntPtr = parent_jointPtr_.lock()) {
+			parentJntPtr.reset();
+		}
 
 		for (auto &childPtr: child_jointPtr_)
 			childPtr.reset();
 	}
 
 	void makeCopy(const simLink&);
-	static void makeCopyLink(const std::shared_ptr<simLink>&, std::shared_ptr<simLink>&, const std::shared_ptr<simJoint>&, vtkSmartPointer<vtkRenderer>&, const double&);
+	static void makeCopyLink(const std::shared_ptr<simLink>&, std::shared_ptr<simLink>&, const std::shared_ptr<simJoint>&, vtkSmartPointer<vtkRenderer>&, const double);
 	void AddActor(vtkSmartPointer<vtkRenderer>&);
 
-	void print(const int& i = 0);
+	void print(const int i = 0);
 
-	std::shared_ptr<simJoint> parent_jointPtr_;
+	std::weak_ptr<simJoint> parent_jointPtr_;
 	std::vector<std::shared_ptr<simJoint> > child_jointPtr_;
 
 	std::string name_;
