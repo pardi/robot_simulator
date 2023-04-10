@@ -21,11 +21,7 @@ The server must be running for the clients to connect to it. The connection type
 This package requires the installation of the following packages. To avoid issue with the lib versioning, please follow 
 the order.
 
-RUN apt-get install \
-
-
 - [vtk == 8.2](https://github.com/pardi/VTK/tree/release/vtk_8.2.0)
-
 
 ## Installation
 Install packages:
